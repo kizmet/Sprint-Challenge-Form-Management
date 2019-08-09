@@ -1,4 +1,5 @@
 import React from "react";
+import Login from "./components/forms/Login";
 import "./App.css";
 
 function App() {
