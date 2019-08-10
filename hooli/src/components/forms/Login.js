@@ -7,7 +7,7 @@ import {
   List,
   Input,
   Icon,
-  Radio,
+  Layout,
   Select,
   Checkbox,
   Button,
@@ -39,7 +39,7 @@ const tailFormItemLayout = {
     }
   }
 };
-const LoginForm = ({
+export const LoginForm = ({
   errors,
   touched,
   values,
@@ -52,7 +52,7 @@ const LoginForm = ({
   name
 }) => {
   const [user, setUser] = useState([]);
-
+  var data = ["data-test-id"];
   useEffect(() => {
     if (status) {
       setUser([...user, status]);
@@ -60,87 +60,94 @@ const LoginForm = ({
   }, [status]);
 
   return (
-    <Card
-      title="Enter Login Credentials"
-      style={{
-        maxWidth: 400,
-        minWidth: 400,
-        marginLeft: "auto",
-        marginRight: "auto"
-      }}
-    >
-      {errors.name &&
-        touched.name &&
-        errors.map(error => {
-          return (
-            <Alert
-              description={error.name}
-              type="error"
-              style={{ marginBottom: 2 }}
-              closable
-            />
-          );
-        })}
+    <div>
+      <h2 data-testid="login-screen">Login</h2>
+      <Card
+        title="Enter Login Credentials"
+        data-testid={`error-card`}
+        style={{
+          maxWidth: 400,
+          minWidth: 400,
+          marginLeft: "auto",
+          marginRight: "auto"
+        }}
+      >
+        {errors.name &&
+          touched.name &&
+          errors.map(error => {
+            return (
+              <Alert
+                description={error.name}
+                htmlFor={`error-${error.name}`}
+                data-test-id={data}
+                type="error"
+                style={{ marginBottom: 2 }}
+                closable
+              />
+            );
+          })}
 
-      <Form {...formItemLayout} onSubmit={handleSubmit}>
-        <Form.Item
-          label="Username"
-          {...(errors.username && touched.username
-            ? {
-                validateStatus: "error",
-                help: errors.username
-              }
-            : {})}
-        >
-          <Input
-            prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.username}
-            placeholder="username"
+        <Form {...formItemLayout} onSubmit={handleSubmit}>
+          <Form.Item
             label="username"
-            name="username"
-            id="username"
-            type="username"
-          />
-        </Form.Item>
-        <Form.Item
-          label="Password"
-          {...(errors.password && touched.password
-            ? {
-                validateStatus: "error",
-                help: errors.password
-              }
-            : {})}
-        >
-          <Input
-            prefix={<Icon type="bank" style={{ color: "rgba(0,0,0,.25)" }} />}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.password}
-            placeholder="password"
-            label="password"
-            name="password"
-            id="password"
-            type="password"
-          />
-        </Form.Item>
+            htmlFor="username"
+            {...(errors.username && touched.username
+              ? {
+                  validateStatus: "error",
+                  help: errors.username
+                }
+              : {})}
+          >
+            <Input
+              prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.username}
+              placeholder="username"
+              label="username"
+              name="username"
+              id="username"
+              type="username"
+            />
+          </Form.Item>
+          <Form.Item
+            label="Password"
+            {...(errors.password && touched.password
+              ? {
+                  validateStatus: "error",
+                  help: errors.password
+                }
+              : {})}
+          >
+            <Input
+              prefix={<Icon type="bank" style={{ color: "rgba(0,0,0,.25)" }} />}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.password}
+              placeholder="password"
+              label="password"
+              name="password"
+              id="password"
+              type="password"
+            />
+          </Form.Item>
 
-        <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
-            Login
-          </Button>
-        </Form.Item>
-      </Form>
-    </Card>
+          <Form.Item {...tailFormItemLayout}>
+            <Button type="primary" htmlType="submit" name="submit">
+              Login
+            </Button>
+          </Form.Item>
+        </Form>
+      </Card>
+    </div>
   );
 };
 
 const Login = withFormik({
   mapPropsToValues({ password, username }) {
     return {
-      password: password || "password",
-      username: username || "test"
+      password: password || "",
+      username: username || ""
     };
   },
   validationSchema: Yup.object().shape({
@@ -153,11 +160,13 @@ const Login = withFormik({
       .post(url, values)
       .then(res => {
         actions.setStatus(res.data);
-        console.log(res);
+        console.log(res.data);
+        actions.setSubmitting(false);
       })
       .catch(err => {
         // actions.setErrors(err.message);
-        console.log(err.message);
+        console.log(err);
+        actions.setErrors(err);
       });
   }
 })(LoginForm); // currying functions in Javascript
