@@ -53,11 +53,11 @@ export const LoginForm = ({
 }) => {
   const [user, setUser] = useState([]);
   var data = ["data-test-id"];
-  useEffect(() => {
-    if (status) {
-      setUser([...user, status]);
-    }
-  }, [status]);
+  // useEffect(() => {
+  //   if (status) {
+  //     setUser([...user, status]);
+  //   }
+  // }, [status]);
 
   return (
     <div>
@@ -79,7 +79,6 @@ export const LoginForm = ({
               <Alert
                 description={error.name}
                 htmlFor={`error-${error.name}`}
-                data-test-id={data}
                 type="error"
                 style={{ marginBottom: 2 }}
                 closable
@@ -139,6 +138,8 @@ export const LoginForm = ({
           </Form.Item>
         </Form>
       </Card>
+
+      {(status && console.log(status)) || <div>API Error: {status}</div>}
     </div>
   );
 };
@@ -159,9 +160,11 @@ const Login = withFormik({
     axios
       .post(url, values)
       .then(res => {
-        actions.setStatus(res.data);
-        console.log(res.data);
-        actions.setSubmitting(false);
+        res.err ? console.log(res) : actions.setStatus(res.data.message);
+        console.log(res.data.message);
+        // actions.setStatus(res.data.message);
+        // console.log(res);
+        // actions.setSubmitting(false);
       })
       .catch(err => {
         // actions.setErrors(err.message);
