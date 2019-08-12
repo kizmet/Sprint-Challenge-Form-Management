@@ -6,6 +6,8 @@ import "./App.css";
 import { Layout, Menu } from "antd";
 import { useRoutes, A } from "hookrouter";
 import Home from "./Home";
+import FooterClass from "./components/FooterClass";
+
 import "antd/dist/antd.css";
 
 const routes = {
@@ -43,7 +45,7 @@ function App() {
         </Menu>
       </Header>
       <Content style={{ padding: "0 50px" }}>{routeResult}</Content>
-      <Footer style={{ textAlign: "center" }}>Created by Bryant Patton</Footer>
+      <FooterClass />
     </Layout>
   );
 }

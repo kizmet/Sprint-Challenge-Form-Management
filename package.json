@@ -1,0 +1,32 @@
+{
+  "name": "form-management",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/kizmet/Sprint-Challenge-Form-Management.git",
+  "author": "Kizmet <bryantpatton@gmail.com>",
+  "license": "MIT",
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  },
+  "dependencies": {
+    "babel-cli": "6.22.2",
+    "babel-core": "6.22.1",
+    "babel-preset-env": "^1.7.0",
+    "express": "4.13.3",
+    "fs": "0.0.2",
+    "sql.js": "0.3.2"
+  },
+  "devDependencies": {
+    "concurrently": "4.1.1"
+  },
+  "scripts": {
+    "postinstall": "(cd BE && yarn install); (cd hooli && yarn install)",
+    "start": "concurrently \"yarn run server\" \"yarn run client\"",
+    "server": "cd BE && node index.js",
+    "client": "cd hooli && yarn start"
+  },
+  "keywords": [],
+  "description": ""
+}
