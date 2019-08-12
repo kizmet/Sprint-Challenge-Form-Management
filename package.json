@@ -1,5 +1,5 @@
 {
-  "name": "Sprint-Challenge-Form-Management",
+  "name": "form-management",
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/kizmet/Sprint-Challenge-Form-Management.git",
@@ -22,9 +22,11 @@
     "concurrently": "4.1.1"
   },
   "scripts": {
-    "postinstall": "(cd BE && yarn install); (cd hooli && yarn install)",    
+    "postinstall": "(cd BE && yarn install); (cd hooli && yarn install)",
     "start": "concurrently \"yarn run server\" \"yarn run client\"",
     "server": "cd BE && node index.js",
     "client": "cd hooli && yarn start"
-  }
+  },
+  "keywords": [],
+  "description": ""
 }
