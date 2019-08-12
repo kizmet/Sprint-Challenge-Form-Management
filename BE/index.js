@@ -8,7 +8,7 @@ const restrictedRoutes = require("./routes/protectedRoutes");
 const errorHandler = require("./middleware");
 
 const server = express();
-
+server.set('port', (process.env.API_PORT || 5000));
 server.use(express.json());
 server.use(cors());
 server.use(helmet());
