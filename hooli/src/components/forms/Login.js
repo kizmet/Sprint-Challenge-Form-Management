@@ -137,9 +137,10 @@ export const LoginForm = ({
             </Button>
           </Form.Item>
         </Form>
+        {status && (status.registration || status.success) && (
+          <div>{status.registration || status.success}</div>
+        )}
       </Card>
-
-      {(status && console.log(status)) || <div>API Error: {status}</div>}
     </div>
   );
 };
@@ -160,16 +161,12 @@ const Login = withFormik({
     axios
       .post(url, values)
       .then(res => {
-        res.err ? console.log(res) : actions.setStatus(res.data.message);
+        actions.setStatus({ success: res.data.message });
         console.log(res.data.message);
-        // actions.setStatus(res.data.message);
-        // console.log(res);
-        // actions.setSubmitting(false);
       })
       .catch(err => {
-        // actions.setErrors(err.message);
+        actions.setStatus({ registration: "incorrect username or password" });
         console.log(err);
-        actions.setErrors(err);
       });
   }
 })(LoginForm); // currying functions in Javascript

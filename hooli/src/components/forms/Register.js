@@ -41,6 +41,7 @@ const tailFormItemLayout = {
 };
 const RegisterForm = ({
   errors,
+  error,
   touched,
   values,
   handleSubmit,
@@ -132,6 +133,7 @@ const RegisterForm = ({
           </Button>
         </Form.Item>
       </Form>
+      {status && status.registration && <div>{status.registration}</div>}
     </Card>
   );
 };
@@ -152,23 +154,12 @@ const Register = withFormik({
     axios
       .post(url, values)
       .then(res => {
-        actions.setStatus(res.data);
-        console.log(res);
+        actions.setStatus(res.data.message);
       })
       .catch(err => {
-        // actions.setErrors(err.message);
-        console.log(err.message);
+        actions.setStatus({ registration: "username already taken" });
+        console.log(err);
       });
-  },
-
-  handleSubmit2(values, { setStatus }) {
-    axios
-      .post(url, values)
-      .then(res => {
-        setStatus(res.data);
-        console.log(res);
-      })
-      .catch(err => console.log(err.response));
   }
 })(RegisterForm); // currying functions in Javascript
 
